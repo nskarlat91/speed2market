@@ -1,5 +1,5 @@
 # Python script for the data manipulation for S2M Report
-# Check read me for package installation.
+# Check read me for package installation and other relevant information.
 # author : Skarlatos Nikolaos
 
 import pandas as pd

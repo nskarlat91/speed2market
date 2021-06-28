@@ -1,5 +1,5 @@
 # Python script for the data manipulation to obtain the daily NVS OrderBook
-# Check read me for package installation.
+# Check read me for package installation and other relevant information.
 # author : Skarlatos Nikolaos
 
 import pandas as pd
@@ -14,7 +14,7 @@ bt6600 = pd.read_excel(r"\\hilversm-nss-01\SharedData03\CustomerSvcs.Countries.E
 bt6700 = pd.read_excel(r"\\hilversm-nss-01\SharedData03\CustomerSvcs.Countries.EHQ\08.Strategics\04.Nike Retail\7. FACTORY STORES\27-Data Foundation\Data Foundation Inputs\6700.xlsx")
 odt = pd.read_excel(r"\\hilversm-nss-01\SharedData03\CustomerSvcs.Countries.EHQ\08.Strategics\04.Nike Retail\7. FACTORY STORES\27-Data Foundation\Data Foundation Inputs\ODT.xlsx")
 fixed = pd.read_excel(r"\\hilversm-nss-01\SharedData03\CustomerSvcs.Countries.EHQ\08.Strategics\04.Nike Retail\7. FACTORY STORES\27-Data Foundation\Data Foundation Inputs\NFS - Fixed report_new (JE).xlsx")
-storemaster = pd.read_excel(r"C:\Users\NSkarl\Box\MPO_Replen_PRD\Store Master file.xlsx", skiprows=[0])
+store_master = pd.read_excel(r"C:\Users\NSkarl\Box\MPO_Replen_PRD\Store Master file.xlsx", skiprows=[0])
 
 # Derive Total Quantity
 
@@ -31,7 +31,7 @@ bt6600_adj = bt6600[["SHIP TO NUMBER" , "Customer PO Number", "Division", "Sales
 bt6700_adj = bt6700[["SHIP TO NUMBER" , "Customer PO Number", "Division", "Sales Order Number", "Req. Delivery Date", "Total Quantity", "IDP Date", "SO rcpt Dt", "Plant"]]
 fixed_adj = fixed[["Cust Ship To Cd", "Doc Dt", "CRD Dt", "PE", "NFS Order identification", "SO Doc Hdr Nbr", "Rsrvd + Fix Qty", "IDP Date", "Cust PO Nbr", "Status", "Div + Shpg Lctn"]]
 odt_adj = odt[["Final IDP date", "Delivery Window", "Total Qty", "Customer PO Number", "Division Code", "Plant Code", "Sales Order Header Creation Date PDT", "Sales Order Header Number", "Ship To Customer Number"]]
-storemaster_adj = storemaster[["Country", "IP", "SHIP TO", "Store name", "CO Region"]]
+store_master_adj = store_master[["Country", "IP", "SHIP TO", "Store name", "CO Region"]]
 
 # Rename columns
 
@@ -88,7 +88,7 @@ np.where(merged2["Cust PO Nbr"].str.contains("open"), "STORE OPENING", np.where(
 np.where(merged2["Cust PO Nbr"].str.contains("GLV"), "GLOBAL VISIT", np.where(merged2["Cust PO Nbr"].str.contains("BACKW"), "BACK WALL",
 np.where(merged2["Cust PO Nbr"].str.contains("INIT"), "INITIAVE", np.where(merged2["REPLEN"].str.contains("R"), "REPLEN", "OTHERS"))))))))))
 
-final = pd.merge(merged2, storemaster_adj, how="inner" , left_on="Cust Ship To Cd" , right_on = "SHIP TO")
+final = pd.merge(merged2, store_master_adj, how="inner" , left_on="Cust Ship To Cd" , right_on = "SHIP TO")
 
 final.astype({"Div nm": str})
 
